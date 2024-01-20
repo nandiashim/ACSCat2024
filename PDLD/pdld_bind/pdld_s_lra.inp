@@ -1,0 +1,51 @@
+../relax_temp/pro_relax.pdb keephis
+
+pl
+    pre_pol
+
+    end
+
+    bind_pdld
+    reg1_res 233
+    config 0 10
+    use_restart ../relax_temp/equil_10/equil_10.res
+       md_parm_r
+         temp 310
+         ss 0.001
+         nsteps 20000
+         region2a_r 20.0
+         water_r 20.0
+         langevin_r      30
+            #constraint_pair   13    25     5.0   3.5     # constraint between HIS(NE) and SER(OG), for PT1
+            #constraint_pair   25  3759     5.0   3.5     # constraint between SER(OG) and PNA(C7), for NA
+            #constraint_pair   13  3758     5.0   3.5     # constraint between HIS(NE) and PNA(O3), for PT2
+       end
+
+       md_parm_w
+         temp 310
+         ss 0.001
+         nsteps 20000
+         region2a_r 20.0
+         water_r 20.0
+         langevin_r      30
+         constraint_1 0.03
+         constraint_2 10
+       end
+
+       md_parm_p
+         temp 310
+         ss 0.001
+         nsteps 20000
+         ex_w_center  1897
+         region2a_r 20.0
+         water_r 20.0
+         langevin_r      30
+         constraint_1 0.03
+         constraint_2 10
+            #constraint_pair   13    25     5.0   3.5     # constraint between HIS(NE) and SER(OG), for PT1
+            #constraint_pair   25  3759     5.0   3.5     # constraint between SER(OG) and PNA(C7), for NA
+            #constraint_pair   13  3758     5.0   3.5     # constraint between HIS(NE) and PNA(O3), for PT2
+       end
+    end
+end
+end

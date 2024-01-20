@@ -1,0 +1,123 @@
+WATER.pdb 
+
+# first we relax the system
+enzymix    
+    pre_enz
+        rest_in ../restart/restart_00/restart_00.res
+#         iontyp ALL
+    end
+
+    evb       
+       evb_state 2 1.00 0.00
+       map_pf    31 1 2
+         
+#SER             
+       evb_atm   16    0.428905   C0     0.429567   C0  
+       evb_atm   17   -0.017274   H0    -0.026279   H0             
+       evb_atm   18   -0.017274   H0    -0.026279   H0
+       evb_atm   23   -0.845908   O0    -0.611011   O0
+       evb_atm   24    0.451551   H0     0.398049   H0
+#HIS
+       evb_atm    5   -0.658644   N-    -0.136854   N0
+       evb_atm    6    0.173282   C+    -0.053986   C+ 
+       evb_atm    7    0.137955   H0     0.257823   H0
+       evb_atm    9   -0.359778   C+    -0.251084   C+ 
+       evb_atm   10    0.237460   H0     0.254627   H0
+       evb_atm    4    0.318910   C+     0.061386   C+
+       evb_atm    8   -0.197481   N0    -0.051161   N0
+       evb_atm   11    0.359602   H0     0.372697   H0
+       evb_atm    1   -0.140907   C0     0.021869   C0
+       evb_atm    2    0.060045   H0     0.063317   H0
+       evb_atm    3    0.060045   H0     0.063317   H0
+#PNA       
+       evb_atm   39    0.989010   C+     0.814182   C0
+       evb_atm   38   -0.423536   O0    -0.577015   O0
+       evb_atm   40   -0.565474   O-    -1.003165   O-
+       evb_atm   41   -0.532929   C0    -0.450660   C0
+       evb_atm   42    0.177643   H0     0.150220   H0
+       evb_atm   43    0.177643   H0     0.150220   H0
+       evb_atm   44    0.177643   H0     0.150220   H0
+             
+      evb_bnd 0 16 17
+      evb_bnd 0 16 18
+      evb_bnd 0 16 23
+      evb_bnd 1 23 24
+      evb_bnd 2 24 5
+      evb_bnd 2 23 39
+
+      evb_bnd 0 5 6
+      evb_bnd 0 5 4
+      evb_bnd 0 6 7
+      evb_bnd 0 6 8
+      evb_bnd 0 8 11
+      evb_bnd 0 8 9
+      evb_bnd 0 9 10
+      evb_bnd 0 9 4
+      evb_bnd 0 4 1
+      evb_bnd 0 1 2
+      evb_bnd 0 1 3
+      evb_bnd 0 38 39
+      evb_bnd 0 39 40
+      evb_bnd 0 39 41
+      evb_bnd 0 41 42
+      evb_bnd 0 41 43
+      evb_bnd 0 41 44
+
+
+#      bond_harmonic
+#       morse_pair    8    9      94.0    0.9    1.2    1
+#       morse_pair    9   15      94.0    0.9    1.2    2
+      
+      #gas_dg 1 0.0
+      #gas_dg 2 0.0
+      #gas_dg 3  50.0a
+      evb_parm
+         iflag_r4 0
+      end
+      
+      rest_out fep_00.res 
+
+
+	md_parm
+         short_log      
+         temperature 310.0
+         nsteps 20000
+         ss 0.001
+         region2a_r 20                                               
+         water_r 20                                                  
+         langevin_r 30
+          induce 1
+          indforce 1
+         ex_w_center 23
+#         dist_atoms 10 17
+         constraint_2 10.0
+#        movie_co         all wat
+#        movie_fq         100                                               
+         #constraint_1 0.3                                           
+         #constraint_post 25 3.0 3.0 3.0 21.4 27.0 20.6         
+         constraint_pair 23 5 10.0 3.5
+         constraint_pair 23 39 10.0 3.5
+#	 log_write_fq 10
+      end                                                         
+   end    
+end
+
+# we are done!!
+#analyze
+#    makepdb
+#        residue all
+#        file_nm final.pdb
+#    end
+
+#    makepdb
+#        residue all+w
+#        file_nm final_end.pdb
+#    end
+
+#    viewmovie
+#        multiframe_xmol ./movie.dat 31
+#    end
+#end
+end
+end
+
